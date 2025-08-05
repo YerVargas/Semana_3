@@ -1,0 +1,80 @@
+# Crear un menú de productos con sus precios
+menu =  ["Pizza","Hot Dog","Coca Cola","Refresco Natural","Pie de limón"]
+
+menu_precios = { #precios en dolares
+    "Pizza": 10,
+    "Hot Dog": 7,
+    "Coca Cola": 5,
+    "Refresco Natural": 5,
+    "Pie de Limón": 6
+}
+
+# Agregar categorias según productos
+
+categorias = {
+    "Pizza": "Comida",
+    "Hot Dog": "Comida",
+    "Coca Cola": "Bebida",
+    "Refresco Natural": "Bebida",
+    "Pie de Limón": "Postre"
+}
+
+# Mostrar al cliente la lista de productos y precios, permitirle escoger lo que desea  y calcular monto total
+
+pedidos = {} #diccionario en blanco para llenar con pedidos
+
+ordenar = True #cuando se false corta el bucle
+
+while ordenar:
+    print("Menú Soda el Buen Sabor")
+    print("Pizza..............$10")
+    print("Hot Dog............$7")
+    print("Coca Cola..........$5")
+    print("Refresco Natural...$5")
+    print("Pie de Limón.......$6")
+    print("Salir")
+    
+    opcion = input("Escriba el nombre del producto que desee ordenar ").strip().title() #strip quita espacios de más y tittle pone cn primera en mayuscula
+    
+    if opcion.lower() == "salir":
+        if not pedidos: #si pedidos esta vacio imprime gracias
+            print("¡Gracias por su visita!")
+            break #cierra el bucle
+        
+        ordenar = False
+        total_sin_desc = 0 #se debe comenzar en cero pa q empiece a sumar abajo
+        categorias_pedidas = set() #conjunto con categorias ordenadas
+        
+        print("Resumen del pedido")
+        for producto, cantidad in pedidos.items():
+            precio_unit = menu_precios[producto]
+            costo = precio_unit * cantidad
+            total_sin_desc += costo
+            categorias_pedidas.add(categorias[producto])
+            
+        if total_sin_desc > 50:
+            descuento = total_sin_desc * 10 / 100
+            porcentaje = "10%"
+                
+        elif total_sin_desc > 30:
+            descuento = total_sin_desc * 5 / 100
+            porcentaje = "5%"
+                
+        else:
+            print("No se aplica descuento")
+            descuento = 0
+            porcentaje = "0%"
+        pago_final = total_sin_desc - descuento
+            
+        print("Las categorías de los productos ordenados son:")
+        for categoria in categorias_pedidas:
+            print(f"{categoria}")
+            
+        print(f"El total de la cuenta es de ${total_sin_desc}, se aplica un descuento de un {porcentaje} para un total a pagar de ${pago_final}")
+            
+    elif opcion.lower() in [producto.lower() for producto in menu]: #producto.lower for producto in menu hace q las opciones de la lista se hagan minusculas
+        cantidad = int(input(f"Ingrese la cantidad de {opcion} que desea ordenar: "))
+        pedidos[opcion] = cantidad #esta parte agrega el producto como clave y la cantidad como valor
+        
+  
+    # esto es una prueba para probar diferentes ramas
